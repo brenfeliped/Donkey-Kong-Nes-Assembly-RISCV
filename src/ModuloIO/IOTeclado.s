@@ -2,6 +2,7 @@
 
 .data
 .text
+# retorna o tecla lida em a0
 scanTeclado:
   li t0, bufft
   lw a0, 0(t0) #ler a flag do teclado
