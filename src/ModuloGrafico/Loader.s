@@ -60,6 +60,7 @@ print_sprite:
 Restau_Map:
 li t0,AddrBaseEVGA
 li t1,320
+addi a2,a2,8 # pula informacao de laguraxaltura
 mul t1,t1,a1 # t1= y*320
 add t1,t1,a0 # t1= (y*320)+x
 add t0,t1,t0 # t0= 0xFF000000 + (y*320)+x(posicao de inicio do print na tela)
@@ -71,12 +72,12 @@ loop_rm: beq t2,a4,end_rm # comparacao com a altura
          loop_linharm:beq t3,a3,end_loop_linharm
          	      lb t4,0(t1) # carrega da imagem do mapa
          	      sb t4, 0(t0) # carrega na tela 
-         	      addi t3,t3,1
-         	      addi t1,t1,1
-         	      addi t0,t0,1
+         	      addi t3,t3,1 # incrementa linha
+         	      addi t1,t1,1 # incrementa um byte no mapa
+         	      addi t0,t0,1 # incrementa um byte no bitmap
          	      j loop_linharm
         end_loop_linharm:
-        	      addi t3,t3,1 # incrementa a linha 
+        	      addi t3,t3,1 # incrementa a linha do mapa
         	      sub  t0,t0,a3 # t0 = pos_atual- largura
         	      addi t0,t0,320 # posicao da nova linha na tela 
 		      sub t1,t1,a3 # t1 = pos_atual_mapa- largura

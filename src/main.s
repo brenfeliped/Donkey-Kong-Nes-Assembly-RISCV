@@ -6,12 +6,12 @@ main:
   #addi sp, sp, -20 #dealoca 5 espacos na pilha
   la a0, fase1_cenario #carrega o cenario
   jal LoadScreen
-  li a0, 10 #posicao x e y inicial do mario
-  li a1, 220
+  li a0, 12 #posicao x e y inicial do mario
+  li a1, 198
   li a2, 0 #sprite 0 inicial
   jal LoadMario #carrega o mario
-  li a0,10
-  li a1,220
+  li a0,12
+  li a1,198
   li a2,0 # id do marioStopRight
 
 ingame: #loop infinito enquanto o jogo roda

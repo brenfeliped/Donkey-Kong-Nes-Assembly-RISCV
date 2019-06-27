@@ -82,9 +82,7 @@ CalculaY:# receber y em a1 e retorna novo y em a1
 	add t2,t0,t2 # t2 = y * 320 + 0xff000000
 	add t2,t2,a0 # t2 = y * 320 + 0xff000000 + x (posicao no bitmap)
 	add t3,t2,t1  # t3= pos_print_mario + 320 (proxima linha)
-	li t4,4
-	lw t5,0(t2)
-	#loop_cal: beq 
+	
 Jump:
   #precisa ser implementado
   addi sp,sp,16
