@@ -91,7 +91,7 @@ end_moveL:
   ret
 
 Calc_y_Right:
-	addi s1,a1,17
+	addi s1,a1,16
 	li t0,0xFF000000
 	li t1,320
 	mul t2,t1,s1 # t2 = y*320
@@ -102,15 +102,15 @@ Calc_y_Right:
 	lb t5, 0(t3)
 	li t1,70
 	beq t1,t4,rightPos
-	#ebreak
+	ebreak
         rightPos: bne t5,t1,endCal_yR
         addi s1,s1,-1
         endCal_yR:
-        	addi a1,s1,-17
+        	addi a1,s1,-16
 		ret
 
 Calc_y_Left:
-	addi s1,a1,17
+	addi s1,a1,16
 	li t0,0xFF000000
 	li t1,320
 	mul t2,t1,s1 # t2 = y*320
@@ -123,7 +123,7 @@ Calc_y_Left:
 	beq t1,t4,endCal_yL
 	addi s1,s1,1
         endCal_yL:
-        	addi a1,s1,-17
+        	addi a1,s1,-16
 		ret
 	
 Jump:
