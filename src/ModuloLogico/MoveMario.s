@@ -19,9 +19,16 @@ IdMoveMent:
   addi t0, zero, 97 #a
   beq t0, a0, MoveLeft #caso seja apertado a movimenta para a esquerda
   
+  
+  # evitar erro por apertar outras teclas 
   #addi t0, zero, 115 #s
   #bne t0, a0, MoveDown #caso seja apertado s movimenta para baixo
+  
+  lw a0,0(sp) # printa o mario com os mesmos dados caso não sido apertada uma tecla valida
   lw ra,4(sp)
+  lw a1,8(sp)
+  lw a2, 12(sp)
+  addi sp,sp,16
   ret
   
 MoveRight:
