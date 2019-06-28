@@ -4,7 +4,6 @@
 # a0=x
 #a1=y
 # a2= id do sprite mario
-# retorna ////
 LoadMario: #a0=x, a1=y, a2=id
   addi sp,sp,-16
   sw a0, 0(sp)
