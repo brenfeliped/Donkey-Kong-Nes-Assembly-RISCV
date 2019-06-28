@@ -43,8 +43,11 @@ MoveRight:
   lw a2, 12(sp) # carrega id do mario anterior
   li t0,3
   bge a2,t0,changeToRight # verifica se o mario esta virado para esquerda
-  li t0,2
+  li t0,298
+  addi t1,a0,2
+  bge t1,t0,reset_mario_animationR # verifica o limite no eixo X para direita
   addi a0,a0,2 # anda cinco pixels no eixo x
+  li t0,2
   beq t0,a2,reset_mario_animationR # verica se não eh a ultima Right animation
   addi a2,a2,1 # vai pro proximo sprite da animacao
   j end_moveR
@@ -69,8 +72,12 @@ MoveLeft:
   lw a2, 12(sp) # carrega id do mario anterior
   li t0,3
   blt a2,t0,changeToLeft #verifica se o mario esta virado para direita
+  li t0,12
+  addi t1,a0,-2
+  blt t1,t0,reset_mario_animationL # testa se o limete do eixo x para esquerda
+  beq t1,t0,reset_mario_animationL
+  addi a0,a0,-2 # anda 2 pixels no eixo x
   li t0,5
-  addi a0,a0,-2 # anda cinco pixels no eixo x
   beq a2,t0,reset_mario_animationL  # verica se não eh a ultima Left animation
   addi a2,a2,1 # vai pro proximo sprite da animacao 
   j end_moveL
@@ -117,25 +124,6 @@ Calc_y_Left:
 	addi s1,s1,1
         endCal_yL:
         	addi a1,s1,-17
-		ret
-CalculaY:# usa o y do identificador de solo para determinar o y do mario
-	addi s1,a1,17
-	li t0,0xFF000000
-	li t1,320
-	mul t2,t1,s1 # t2 = y*320
-	add t2,t0,t2 # t2 = y * 320 + 0xff000000
-	add t2,t2,a0 # t2 = y * 320 + 0xff000000 + x (posicao no bitmap)
-	sub t3,t2,t1  # t3= pos_print_mario - 320 ( linha anterior)
-	lb t4, 0(t2)
-	lb t5, 0(t3)
-	li t1,70
-	beq t4,t1,redY
-	addi s1,s1,-1
-	j end_calcY
-	redY: bne t5,t1,end_calcY
-	addi s1,s1,1
-	end_calcY:
-		addi a1,s1,-17
 		ret
 	
 Jump:
