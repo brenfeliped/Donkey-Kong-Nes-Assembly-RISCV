@@ -6,3 +6,7 @@
 .include "..\imagens_s\marioLeftLegFrontUp.s"
 .include "..\imagens_s\marioLeftLegBackUp.s"
 .include "..\imagens_s\fase1_cenario.s"
+.include "..\imagens_s\mario_falling_left.s"
+.include "..\imagens_s\mario_falling_right.s"
+.include "..\imagens_s\mario_jump_left.s"
+.include "..\imagens_s\mario_jump_right.s"

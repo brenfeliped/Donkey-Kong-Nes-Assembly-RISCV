@@ -12,18 +12,27 @@ IdMoveMent:
   jal scanTeclado
   addi t0, zero, 100 #d
   beq t0, a0, MoveRight #caso n seja apertado nenhuma tecla volta a verificar
+  addi t0, zero,68 #D
+  beq t0, a0, MoveRight #caso n seja apertado nenhuma tecla volta a verificar
   
   #addi t0, zero, 119 #w
   #bne t0, a0, MoveUp #caso seja apertado w movimentaria para cima
   
   addi t0, zero, 97 #a
   beq t0, a0, MoveLeft #caso seja apertado a movimenta para a esquerda
+  addi t0, zero, 65 #A
+  beq t0, a0, MoveLeft #caso seja apertado a movimenta para a esquerda
   
   
-  # evitar erro por apertar outras teclas 
+  addi t0,zero,104#h
+  beq  t0,a0,Jump # caso seja apertada pula
+  addi t0,zero,72 #H
+  beq  t0,a0,Jump # caso seja apertada pula
+  
   #addi t0, zero, 115 #s
   #bne t0, a0, MoveDown #caso seja apertado s movimenta para baixo
-  
+   
+   # evitar erro por apertar outras teclas 
   lw a0,0(sp) # printa o mario com os mesmos dados caso não sido apertada uma tecla valida
   lw ra,4(sp)
   lw a1,8(sp)
@@ -43,10 +52,10 @@ MoveRight:
   lw a2, 12(sp) # carrega id do mario anterior
   li t0,3
   bge a2,t0,changeToRight # verifica se o mario esta virado para esquerda
-  li t0,298
+  li t0,298 # limite em x  a direita
   addi t1,a0,2
   bge t1,t0,reset_mario_animationR # verifica o limite no eixo X para direita
-  addi a0,a0,2 # anda cinco pixels no eixo x
+  addi a0,a0,2 # anda 2 pixels no eixo x
   li t0,2
   beq t0,a2,reset_mario_animationR # verica se não eh a ultima Right animation
   addi a2,a2,1 # vai pro proximo sprite da animacao
@@ -128,6 +137,26 @@ Calc_y_Left:
 	
 Jump:
   #precisa ser implementado
+  lw a0,0(sp) # carrega x do sprite  anterior
+  lw a1, 8(sp) # carrega y do sprite  anterior
+  la a2,fase1_cenario # carrega o mapa em a2
+  li a3,15 # largura 
+  li a4,17 # altura
+  jal Restau_Map # paga o mario antigo
+  lw a0,0(sp) # carrega x do sprite  anterior
+  lw a1, 8(sp) # carrega y do sprite  anterior
+  lw a2, 12(sp) # carrega id do mario anterior
+  li t0,3
+  blt a2,t0,JumpRight #verifica a direcao do mario
+  Jumleft:
+  	li a2,6
+  	jal LoadMario
+  	j endJump
+  JumpRight:
+  	li a2,7
+  	jal LoadMario	  
+endJump:
+  ebreak
   addi sp,sp,16
   lw ra,4(sp)
   ret

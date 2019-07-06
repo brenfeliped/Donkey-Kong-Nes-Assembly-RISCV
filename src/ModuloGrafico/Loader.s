@@ -45,8 +45,10 @@ print_sprite:
   		    		j loop_linha
   		    end_linha:
   		    	      addi t4,t4,1  # incrementa a linha
-  		    	      addi a2,a2,1
-  		    	      sub  t0,t0,t5 # t0= pos_atual - largura
+  		    	      andi tp,t5,1
+  		    	      beq tp,zero,par
+  		    	  impar:addi a2,a2,1
+  		    	 par:sub  t0,t0,t5 # t0= pos_atual - largura
   		    	      addi  t0,t0,320
   		    	      j loop_print
        end_print:

@@ -26,7 +26,6 @@ ingame: #loop infinito enquanto o jogo roda
   addi sp,sp,12
   #jal ReloadMario #recarrega o mario
   j ingame #volta pra label ingame
-  #addi sp, sp, 20
   li a7,10 #termina
   ecall
   

@@ -1,5 +1,4 @@
 .eqv bufft 0xff200000 #buffer de teclado
-
 .data
 .text
 # retorna o tecla lida em a0
