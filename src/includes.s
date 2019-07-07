@@ -4,6 +4,7 @@
 #includes modulo logico
 .include "ModuloLogico\MoveMario.s"
 .include "ModuloLogico\SystemPoints.s"
+.include "ModuloLogico\SYSTEMv13.s"
 #includes modulo Grafico
 .include "ModuloGrafico\Loader.s"
 .include "ModuloGrafico\LoaderMario.s"
