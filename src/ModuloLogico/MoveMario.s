@@ -3,8 +3,7 @@
 # a1 = y do mario
 # a2 = id do mario 
 # e retorna a0 = x_novo a1= y_novo e  a2 = id_novo
-IdMoveMent:
-  addi sp,sp,-16
+IdMoveMent: addi sp,sp,-16
   sw a0, 0(sp) #salva na pilha o x do sprite
   sw ra, 4(sp) # slava na pilha ra
   sw a1, 8(sp) # salva y
@@ -52,7 +51,7 @@ MoveRight:
   lw a2, 12(sp) # carrega id do mario anterior
   li t0,3
   bge a2,t0,changeToRight # verifica se o mario esta virado para esquerda
-  li t0,298 # limite em x  a direita
+  li t0,290 # limite em x  a direita
   addi t1,a0,2
   bge t1,t0,reset_mario_animationR # verifica o limite no eixo X para direita
   addi a0,a0,2 # anda 2 pixels no eixo x
@@ -81,7 +80,7 @@ MoveLeft:
   lw a2, 12(sp) # carrega id do mario anterior
   li t0,3
   blt a2,t0,changeToLeft #verifica se o mario esta virado para direita
-  li t0,12
+  li t0,22  # limite x pela esquerda
   addi t1,a0,-2
   blt t1,t0,reset_mario_animationL # testa se o limete do eixo x para esquerda
   beq t1,t0,reset_mario_animationL
@@ -148,15 +147,118 @@ Jump:
   lw a2, 12(sp) # carrega id do mario anterior
   li t0,3
   blt a2,t0,JumpRight #verifica a direcao do mario
-  Jumleft:
-  	li a2,6
+  Jumleft: li a2,6
   	jal LoadMario
+  	li s3,12
+  	#lw a1, 8(sp) # carrega y do sprite  anterior
+  	mv s4,a1    # s1 = y
+  	loop_jumpUpL:beq s3,zero,end_loopL # faz a subida no pulo
+  		     #lw a0,0(sp) # carrega x do sprite  anterior
+  		     mv a1,s4
+  		     la a2,fase1_cenario
+  		     li a3, 16
+  		     li a4, 16
+  		     jal Restau_Map
+  		     #lw a0,0(sp) # carrega x do sprite  anterior
+  		     addi s4,s4,-1
+  		     mv a1,s4
+  		     li a2,6 # id do mario pullando esquerda
+  		     addi s3,s3,-1
+  		     jal LoadMario
+  		     j loop_jumpUpL
+        end_loopL:
+        	     addi a1,s4,-2
+  		     la a2,fase1_cenario
+  		     li a3, 16
+  		     li a4, 16
+  		     jal Restau_Map
+  		     li s3,12 
+        	loop_JumpDownL: beq s3,zero,end_JumpDownL
+        		       mv a1,s4
+  		     	       la a2,fase1_cenario
+  		     	       li a3, 16
+  		     	       li a4, 16
+  		     	       jal Restau_Map
+  		     	       #lw a0,0(sp) # carrega x do sprite  anterior
+  		     	       addi s4,s4,1
+  		    	       mv a1,s4
+  		     	       li a2,6 # id do mario pullando esquerda
+  		     	       addi s3,s3,-1
+  		     	       jal LoadMario
+  		     	       j loop_JumpDownL
+  		 end_JumpDownL:
+  		 	     mv a1,s4
+  		     	     la a2,fase1_cenario
+  		     	     li a3, 16
+  		     	     li a4, 16
+  		     	     jal Restau_Map
+  		     	     li a2,8 # id od mario aterrisando esquerda
+  		     	     jal LoadMario
+  		     	     la a2,fase1_cenario
+  		     	     li a3, 16
+  		     	     li a4, 16
+  		     	     jal Restau_Map
+  		     	     li a2,3
+  		     	     jal LoadMario
+  		     	     li a2,3 # para se perder o mario no mapa
   	j endJump
   JumpRight:
   	li a2,7
-  	jal LoadMario	  
+  	jal LoadMario
+  	li s3, 12
+  	mv s4,a1
+  	loop_jumpUpR:beq s3,zero,end_loopR # faz a subida no pulo
+  		     #lw a0,0(sp) # carrega x do sprite  anterior
+  		     mv a1,s4
+  		     la a2,fase1_cenario
+  		     li a3, 16
+  		     li a4, 16
+  		     jal Restau_Map
+  		     #lw a0,0(sp) # carrega x do sprite  anterior
+  		     addi s4,s4,-1
+  		     mv a1,s4
+  		     li a2,7     # id do mario pullando direita
+  		     addi s3,s3,-1
+  		     jal LoadMario
+  		     j loop_jumpUpR
+        end_loopR:
+        	     addi a1,s4,-2
+  		     la a2,fase1_cenario
+  		     li a3, 16
+  		     li a4, 16
+  		     jal Restau_Map
+  		     li s3,12 
+        	loop_JumpDownR: beq s3,zero,end_JumpDownR
+        		       mv a1,s4
+  		     	       la a2,fase1_cenario
+  		     	       li a3, 16
+  		     	       li a4, 16
+  		     	       jal Restau_Map
+  		     	       lw a0,0(sp) # carrega x do sprite  anterior
+  		     	       addi s4,s4,1
+  		    	       mv a1,s4
+  		     	       li a2,7 # id do mario pullando direita
+  		     	       addi s3,s3,-1
+  		     	       jal LoadMario
+  		     	       j loop_JumpDownR
+  		 end_JumpDownR:
+  		 	     mv a1,s4
+  		     	     la a2,fase1_cenario
+  		     	     li a3, 16
+  		     	     li a4, 16
+  		     	     jal Restau_Map
+  		     	     li a2,9 # id od mario aterrisando direita
+  		     	     jal LoadMario
+  		     	     la a2,fase1_cenario
+  		     	     li a3, 16
+  		     	     li a4, 16
+  		     	     jal Restau_Map
+  		     	     lw a0,0(sp) # carrega x do sprite  anterior
+  		     	     li a2,0
+  		     	     jal LoadMario
+  		     	     li a2,0 # para se perder o mario no mapa	  
 endJump:
-  ebreak
-  addi sp,sp,16
+  #ebreak
   lw ra,4(sp)
+  addi sp,sp,16
   ret

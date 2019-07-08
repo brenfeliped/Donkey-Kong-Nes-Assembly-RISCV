@@ -5,11 +5,11 @@
 #a1=y
 # a2= id do sprite mario
 LoadMario: #a0=x, a1=y, a2=id
-  addi sp,sp,-16
-  sw a0, 0(sp)
-  sw a1, 4(sp)
-  sw a2, 8(sp)
-  sw ra, 12(sp) #salva o registrador de retorno
+  addi sp,sp,-4
+  #sw a0, 0(sp)
+  #sw a1, 4(sp)
+  #sw a2, 8(sp)
+  sw ra, 0(sp) #salva o registrador de retorno
   addi t1, a2, 0 #salva o valor de a2 em t1
   
   li t0, 0 #carrega o possivel id do sprite em t0
@@ -53,8 +53,10 @@ LoadMario: #a0=x, a1=y, a2=id
   la a2,mario_jump_right
   beq t1,t0,RETLOAD # testa se o id=9
   
+  j RETLOAD_fim
 RETLOAD:
   jal print_sprite
-  lw ra, 12(sp)
+RETLOAD_fim:lw ra, 0(sp)
+  addi sp,sp,4
   ret
   

@@ -5,11 +5,24 @@ main:
   #addi sp, sp, -20 #dealoca 5 espacos na pilha
   la a0, fase1_cenario #carrega o cenario
   jal LoadScreen
-  li a0, 65 #posicao x e y inicial do mario
+  #jal BeginPoints
+  la a2,fire_barril1
+  li a0,44
+  li a1,191
+  jal print_sprite
+  li a0,100
+  li a1,27
+  la a2,princesa_left
+  jal print_sprite
+  li a0,44
+  li a1,33
+  la a2,dnk_frente
+  jal print_sprite # printar o DK
+  li a0, 63 #posicao x e y inicial do mario
   li a1, 199
   li a2, 0 #sprite 0 inicial
   jal LoadMario #carrega o mario
-  li a0,65
+  li a0,63
   li a1,199
   li a2,0 # id do marioStopRight
   li s1,216 # id do solo posicao y
