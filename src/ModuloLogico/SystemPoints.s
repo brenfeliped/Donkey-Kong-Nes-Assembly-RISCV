@@ -2,7 +2,7 @@
 BeginPoints:
 addi sp,sp,-4
 sw ra,0(sp)
-la a2,n0 # enderesso incial do numero 0
+#la a2,n0 # enderesso incial do numero 0
 li a0,41 # x incial
 li a1,24 # y incial
 jal print_sprite

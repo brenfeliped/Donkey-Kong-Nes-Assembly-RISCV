@@ -27,6 +27,10 @@ Verifica_Joy:li t0,ADC_CH0_CoordX
 	Move_x_right: li a0,97
 	j end_scanJoy
 	Dont_Move_X:
+		li t0,0xF
+		bne t0,t2,scanJoy
+		li a0,104
+		j end_scanJoy
 		j scanJoy
 	# para implementar coord Y e botao :)	
 end_scanJoy:

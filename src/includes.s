@@ -9,4 +9,5 @@
 .include "ModuloGrafico\Loader.s"
 .include "ModuloGrafico\LoaderMario.s"
 .include "ModuloGrafico\UpdateScreen.s"
+.include "ModuloGrafico\LoaderDK.s"
 #includes modulo Musica

@@ -1,5 +1,5 @@
 .data
-	Dist_escadas_direita: .word 8
+	Dist_escadas_direita: .word 9
 .text
 # fucao para identificar o movimento e da a nova posicao
 # a0 = x do mario
@@ -13,6 +13,8 @@ IdMoveMent: addi sp,sp,-16
   sw a2, 12(sp) # salva id
   jal scanTeclado
   #jal scanJoy
+  #li t0,10 # teste se mario ta na escada
+  #beq t0,a0,
   addi t0, zero, 100 #d
   beq t0, a0, MoveRight #caso n seja apertado nenhuma tecla volta a verificar
   addi t0, zero,68 #D
@@ -103,29 +105,7 @@ end_moveL:
   addi sp,sp,16
   ret
 
-Cal_y: addi s1,a1,16
-	li t0,0xFF000000
-	li t1,320
-	mul t2,t1,s1 # t2 = y*320
-	add t2,t0,t2 # t2 = y * 320 + 0xff000000
-	add t2,t2,a0 # t2 = y * 320 + 0xff000000 + x (posicao no bitmap)
-	sub t3,t2,t1  # t3= pos_print_mario - 320 ( linha anterior)
-	lb t4, 0(t2)
-	lb t5, 0(t3)
-	li t1,70
-	and s2,t1,t4 # s2 ==70 se t1=t4=70
-	and s3,t1,t5 # s3 == 70 se t1=t5=70
-	beq s2,s2,UpY
-	li t1,0
-	or s2,t1,t4
-	or s3,t1,t5
-	beq s2,s3,downY
-	j end_CalY
-	downY: addi s1,s1,1
-		j end_CalY
-	UpY: addi s1,s1,-1
-	end_CalY:addi a1,s1,-16
-		ret	 
+	 
 Calc_y_Right:
 	addi s1,a1,16
 	li t0,0xFF000000
@@ -174,6 +154,7 @@ Jump:
   li a3,15 # largura 
   li a4,17 # altura
   jal Restau_Map # paga o mario antigo
+  jal TOCA_PASSO_PULO
   lw a0,0(sp) # carrega x do sprite  anterior
   lw a1, 8(sp) # carrega y do sprite  anterior
   lw a2, 12(sp) # carrega id do mario anterior
@@ -182,25 +163,25 @@ Jump:
   Jumleft: li a2,6
   	jal LoadMario
   	li s3,12
-  	#lw a1, 8(sp) # carrega y do sprite  anterior
+  	lw a1, 8(sp) # carrega y do sprite  anterior
   	mv s4,a1    # s1 = y
   	loop_jumpUpL:beq s3,zero,end_loopL # faz a subida no pulo
-  		     #lw a0,0(sp) # carrega x do sprite  anterior
+  		     lw a0,0(sp) # carrega x do sprite  anterior
   		     mv a1,s4
   		     la a2,fase1_cenario
   		     li a3, 16
   		     li a4, 16
   		     jal Restau_Map
-  		     #lw a0,0(sp) # carrega x do sprite  anterior
+  		     lw a0,0(sp) # carrega x do sprite  anterior
   		     addi s4,s4,-1
   		     mv a1,s4
   		     li a2,6 # id do mario pullando esquerda
   		     addi s3,s3,-1
   		     jal LoadMario
-  		     #li a0,35 # sleep de 35 milisegundos
-  		     #li a7,32
-  		     #ecall
-  		     #lw a0,0(sp)
+  		     li a0,35 # sleep de 35 milisegundos
+  		     li a7,32
+  		     M_Ecall
+  		     lw a0,0(sp)
   		     j loop_jumpUpL
         end_loopL:
         	     addi a1,s4,-2
@@ -221,10 +202,10 @@ Jump:
   		     	       li a2,6 # id do mario pullando esquerda
   		     	       addi s3,s3,-1
   		     	       jal LoadMario
-  		     	       #li a0,35 # sleep de 35 milisegundos
-  		     	       #li a7,32
-  		     	       #ecall
-  		               #lw a0,0(sp)
+  		     	       li a0,35 # sleep de 35 milisegundos
+  		     	       li a7,32
+  		     	       M_Ecall
+  		               lw a0,0(sp)
   		     	       j loop_JumpDownL
   		 end_JumpDownL:
   		 	     mv a1,s4
@@ -248,22 +229,22 @@ Jump:
   	li s3, 12
   	mv s4,a1
   	loop_jumpUpR:beq s3,zero,end_loopR # faz a subida no pulo
-  		     #lw a0,0(sp) # carrega x do sprite  anterior
+  		     lw a0,0(sp) # carrega x do sprite  anterior
   		     mv a1,s4
   		     la a2,fase1_cenario
   		     li a3, 16
   		     li a4, 16
   		     jal Restau_Map
-  		     #lw a0,0(sp) # carrega x do sprite  anterior
+  		     lw a0,0(sp) # carrega x do sprite  anterior
   		     addi s4,s4,-1
   		     mv a1,s4
   		     li a2,7     # id do mario pullando direita
   		     addi s3,s3,-1
   		     jal LoadMario
-  		     #li a0,35 # sleep de 35 milisegundos
-  		     #li a7,32
-  		     #ecall
-  		     #lw a0,0(sp)
+  		     li a0,35 # sleep de 35 milisegundos
+  		     li a7,32
+  		     M_Ecall
+		     lw a0,0(sp)
   		     j loop_jumpUpR
         end_loopR:
         	     addi a1,s4,-2
@@ -284,10 +265,10 @@ Jump:
   		     	       li a2,7 # id do mario pullando direita
   		     	       addi s3,s3,-1
   		     	       jal LoadMario
-  		     	       #li a0,35 # sleep de 35 milisegundos
-  		     	       #li a7,32
-  		     	       #ecall
-  		               #lw a0,0(sp)
+  		     	       li a0,35 # sleep de 35 milisegundos
+  		     	       li a7,32
+  		     	       M_Ecall
+  		               lw a0,0(sp)
   		     	       j loop_JumpDownR
   		 end_JumpDownR:
   		 	     mv a1,s4
@@ -310,6 +291,28 @@ endJump:
   lw ra,4(sp)
   addi sp,sp,16
   ret
+
+Verifica_escada: # tp= 1 eh pra subir | tp=2 eh pra descer: 
+      # inicio para subir escada ou descer escada
+      li t0,257 # verificar as 3 escadas a direita do mapa (242<=x<=257 and y<=198)
+      bgt a0,t0,continua_verifica_escada
+      li t0,242
+      blt a0,t0,continua_verifica_escada
+      li a0,250 # posicao x para o mario ficar virado para escada
+      li a2,11 # id do mario virado de costas
+      li gp,7
+      j end_verifica_escada
+      continua_verifica_escada: li t0,70 # verificar as 2 escadas a esquerda do mapa (60<=x<=70 and y<=198)
+      				bgt a0,t0,continua_verifica_escada2
+      				li t0,53
+      				blt a0,t0,continua_verifica_escada2
+      				li a0,60
+      				li a2,11
+      				j end_verifica_escada
+      continua_verifica_escada2: # para implmentar :)
+      				
+end_verifica_escada: jr s1
+
 MoveUp:
       lw a0,0(sp) # carrega x do sprite  anterior
       lw a1, 8(sp) # carrega y do sprite  anterior
@@ -320,26 +323,52 @@ MoveUp:
       lw a0,0(sp) # carrega x do sprite  anterior
       lw a1, 8(sp) # carrega y do sprite  anterior
       lw a2, 12(sp) # carrega id do mario anterior
-      
-      # inicio para subir escada
-      li t0,257 # verificar as 3 escadas a direita do mapa (242<=x<=257 and y<=198)
-      bgt a0,t0,continua_verifica_escada
-      li t0,242
-      blt a0,t0,continua_verifica_escada
-      li a0,250 # posicao x para o mario ficar virado para escada
-      li a2,11 # id do mario virado de costas
-      jal LoadMario
-      j end_verifica_escada
-      continua_verifica_escada: li t0,70 # verificar as 2 escadas a esquerda do mapa (60<=x<=70 and y<=198)
-      				bgt a0,t0,continua_verifica_escada2
-      				li t0,53
-      				blt a0,t0,continua_verifica_escada2
-      				li a0,60
-      				li a2,11
-      				jal LoadMario
-      				j end_verifica_escada
-      continua_verifica_escada2: # para implmentar 
-      				
-end_verifica_escada:lw ra,4(sp)
-      addi sp,sp,16
-      ret
+      li t0,11
+      beq a2,t0,Esta_na_escada
+      li t0,12
+      beq a2,t0,Esta_na_escada
+      li t0,13
+      beq a2,t0,Esta_na_escada
+      li tp,1
+      jal s1, Verifica_escada
+      j end_MoveUp
+      Esta_na_escada: li t0,257  # verificar as 3 escadas a direita do mapa (242<=x<=257 and y<=198)
+      		    bgt a0,t0,prox_escada
+      		    li t0,242
+      		    blt a0,t0,prox_escada
+      		    #la t0,Dist_escadas_direita
+      		    #lw t0, 0(t0)
+      		SobeEscada:#addi gp,gp,-1
+      		    #sw t0,0(t0)
+      		    beq gp,zero,termina_subida
+      		    #sw t0,0(t0)
+      		    addi a1,a1,-1
+      		    li t0,11
+      		    beq t0,a2,alterna_sprite_escada
+      		    li a2,11
+      		    j load_mario_escada
+      		    alterna_sprite_escada: li a2,12
+load_mario_escada:  jal LoadMario
+      		    j end_MoveUp
+      		    termina_subida: li t0,13
+      		    		     beq t0,a2,mario_levanta
+      		    		     mv a2,t0 # a2 =13
+      		    		     sw t0,0(t0)
+      		    		     jal LoadMario
+      		    		     j end_MoveUp
+      		    		     mario_levanta: addi a0,a0,-16
+      		    		     li a2,10
+      		    		     jal LoadMario 
+      		    		     j end_MoveUp
+      		    prox_escada:li t0,70  # verificar as 2 escadas a esquerda do mapa (60<=x<=70 and y<=198)
+      		    bgt a0,t0,prox_escada2
+      		    li t0,53
+      		    blt a0,t0,prox_escada2
+      		    j SobeEscada
+      		    prox_escada2:
+      		     
+      		     
+      end_MoveUp: lw ra,4(sp)
+      		addi sp,sp,16
+      		ret
+		
