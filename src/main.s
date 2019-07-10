@@ -11,21 +11,22 @@ main:
   li a1,191
   jal print_sprite
   li a0,100
-  li a1,27
+  li a1,26
   la a2,princesa_left
   jal print_sprite
   li a0,44
-  li a1,33
+  li a1,32
   la a2,dnk_frente
   jal print_sprite # printar o DK
-  li a0, 63 #posicao x e y inicial do mario
-  li a1, 199
+  li a0,25 #63 #posicao x e y inicial do mario (25=x e 163=y proxima plataforma)
+  li a1,163 #199
   li a2, 0 #sprite 0 inicial
   jal LoadMario #carrega o mario
-  li a0,63
-  li a1,199
+  li a0,25#63 
+  li a1,163#199
   li a2,0 # id do marioStopRight
   li s1,216 # id do solo posicao y
+  
 ingame: #loop infinito enquanto o jogo roda
   jal IdMoveMent #Identifica o movimento do mario realizado
   addi sp,sp,-12
@@ -42,4 +43,6 @@ ingame: #loop infinito enquanto o jogo roda
   li a7,10 #termina
   ecall
   
+GAMELOOP: # para implementar
+	j GAMELOOP  
 .include "includes.s"

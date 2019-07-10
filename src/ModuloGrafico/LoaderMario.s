@@ -49,9 +49,27 @@ LoadMario: #a0=x, a1=y, a2=id
   la a2,mario_falling_left
   beq t1,t0,RETLOAD # testa se o id=8
   
-  li a0,9
+  li t0,9
   la a2,mario_jump_right
   beq t1,t0,RETLOAD # testa se o id=9
+  
+  # subir escadas
+  li t0,10
+  la a2,mario_back
+  beq t1,t0,RETLOAD # testa se o id=10
+  
+  li t0,11
+  la a2,mario_back_left_hand_up
+  beq t1,t0,,RETLOAD # testa se o id=11
+  
+  li t0,12
+  la a2,mario_back_right_hand_up
+  beq t1,t0,RETLOAD  # testa se o id=12
+  
+  li t0,13
+  la a2,mario_terminando_de_subir_escala
+  beq t1,t0,RETLOAD # testa se o id=13
+  
   
   j RETLOAD_fim
 RETLOAD:

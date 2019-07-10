@@ -23,3 +23,7 @@
 .include "..\imagens_s\dnk_frente.s"
 .include "..\imagens_s\princesa_left.s"
 .include "..\imagens_s\fire_barril1.s"
+.include "..\imagens_s\mario_back.s"
+.include "..\imagens_s\mario_back_left_hand_up.s"
+.include "..\imagens_s\mario_back_right_hand_up.s"
+.include "..\imagens_s\mario_terminando_de_subir_escala.s"
